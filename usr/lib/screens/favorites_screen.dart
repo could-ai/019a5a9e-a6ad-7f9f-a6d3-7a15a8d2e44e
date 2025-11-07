@@ -1,3 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/hymn_provider.dart';
+import '../models/hymn.dart';
+import '../widgets/hymn_list_item.dart';
+import 'hymn_reading_screen.dart';
+
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFDAA520),
+        title: const Text(
+          'Favorites',
+          style: TextStyle(
+            fontWeight: FontWeight.w300,
+            letterSpacing: 2,
+          ),
+        ),
+      ),
       body: Consumer<HymnProvider>(
         builder: (context, hymnProvider, child) {
           final favoriteHymns = hymnProvider.favoriteHymns;
@@ -104,3 +128,6 @@
           );
         },
       ),
+    );
+  }
+}

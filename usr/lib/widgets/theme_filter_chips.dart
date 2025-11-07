@@ -1,3 +1,15 @@
+import 'package:flutter/material.dart';
+
+class ThemeFilterChips extends StatelessWidget {
+  final String? selectedTheme;
+  final Function(String) onThemeSelected;
+
+  const ThemeFilterChips({
+    super.key,
+    required this.selectedTheme,
+    required this.onThemeSelected,
+  });
+
   @override
   Widget build(BuildContext context) {
     final themes = ['Worship', 'Hope', 'Faith', 'Love', 'Christ'];
@@ -32,7 +44,9 @@
               selectedColor: const Color(0xFFDAA520),
               checkmarkColor: Colors.white,
               elevation: isSelected ? 4 : 0,
-              shadowColor: isSelected ? const Color(0xFFDAA520).withOpacity(0.3) : Colors.transparent,
+              shadowColor: isSelected
+                  ? const Color(0xFFDAA520).withOpacity(0.3)
+                  : Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -43,3 +57,4 @@
       ),
     );
   }
+}

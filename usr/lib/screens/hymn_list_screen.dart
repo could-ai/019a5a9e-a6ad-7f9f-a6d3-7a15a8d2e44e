@@ -1,3 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/hymn_provider.dart';
+import '../models/hymn.dart';
+import '../widgets/theme_filter_chips.dart';
+import '../widgets/hymn_list_item.dart';
+import 'hymn_reading_screen.dart';
+
+class HymnListScreen extends StatefulWidget {
+  const HymnListScreen({super.key});
+
+  @override
+  State<HymnListScreen> createState() => _HymnListScreenState();
+}
+
+class _HymnListScreenState extends State<HymnListScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  String? _selectedTheme;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFDAA520),
+        title: const Text(
+          'Hymnal',
+          style: TextStyle(
+            fontWeight: FontWeight.w300,
+            letterSpacing: 2,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite_outline),
+            onPressed: () {
+              Navigator.pushNamed(context, '/favorites');
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           // Search Bar
@@ -94,21 +148,21 @@
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      Icon(
-                        Icons.search_off,
-                        size: 80,
-                        color: Colors.grey[300],
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No hymns found',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey[500],
-                          fontWeight: FontWeight.w300,
+                        Icon(
+                          Icons.search_off,
+                          size: 80,
+                          color: Colors.grey[300],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        Text(
+                          'No hymns found',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey[500],
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -143,3 +197,6 @@
           ),
         ],
       ),
+    );
+  }
+}
