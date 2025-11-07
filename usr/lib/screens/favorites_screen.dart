@@ -1,66 +1,46 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/hymn_provider.dart';
-import '../widgets/hymn_list_item.dart';
-import 'hymn_reading_screen.dart';
-
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFFDAA520),
-        title: const Text(
-          'Favorites',
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            letterSpacing: 2,
-          ),
-        ),
-      ),
       body: Consumer<HymnProvider>(
         builder: (context, hymnProvider, child) {
           final favoriteHymns = hymnProvider.favoriteHymns;
 
           if (favoriteHymns.isEmpty) {
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.favorite_border,
-                    size: 100,
-                    color: Colors.grey[300],
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'No favorites yet',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey[500],
-                      fontWeight: FontWeight.w300,
+              child: Container(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.favorite_border,
+                      size: 100,
+                      color: Colors.grey[300],
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Tap the heart icon on any hymn\nto add it to favorites',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[400],
-                      fontWeight: FontWeight.w300,
+                    const SizedBox(height: 24),
+                    Text(
+                      'No favorites yet',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey[500],
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 12),
+                    Text(
+                      'Tap the heart icon on any hymn\nto add it to favorites',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[400],
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }
 
           return ReorderableListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.all(16),
             itemCount: favoriteHymns.length,
             onReorder: (oldIndex, newIndex) {
               hymnProvider.reorderFavorites(oldIndex, newIndex);
@@ -73,7 +53,11 @@ class FavoritesScreen extends StatelessWidget {
                 background: Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: 20),
-                  color: Colors.red,
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   child: const Icon(
                     Icons.delete_outline,
                     color: Colors.white,
@@ -95,24 +79,28 @@ class FavoritesScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: HymnListItem(
+                child: Card(
                   key: Key(hymn.id),
-                  hymn: hymn,
-                  showReorderHandle: true,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HymnReadingScreen(hymn: hymn),
-                      ),
-                    );
-                  },
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: HymnListItem(
+                    hymn: hymn,
+                    showReorderHandle: true,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HymnReadingScreen(hymn: hymn),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               );
             },
           );
         },
       ),
-    );
-  }
-}

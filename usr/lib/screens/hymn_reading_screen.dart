@@ -1,118 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import '../models/hymn.dart';
-import '../providers/hymn_provider.dart';
-import '../providers/theme_provider.dart';
-import 'package:share_plus/share_plus.dart';
-
-class HymnReadingScreen extends StatefulWidget {
-  final Hymn hymn;
-
-  const HymnReadingScreen({super.key, required this.hymn});
-
-  @override
-  State<HymnReadingScreen> createState() => _HymnReadingScreenState();
-}
-
-class _HymnReadingScreenState extends State<HymnReadingScreen> {
-  double _fontSize = 16.0;
-  bool _isReading = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final hymnProvider = Provider.of<HymnProvider>(context);
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isFavorite = hymnProvider.isFavorite(widget.hymn.id);
-    final isDarkMode = themeProvider.isDarkMode;
-
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: isDarkMode ? Colors.grey[900] : const Color(0xFFDAA520),
-        title: Text(
-          'Hymn ${widget.hymn.number}',
-          style: const TextStyle(
-            fontWeight: FontWeight.w300,
-            letterSpacing: 1.5,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-            ),
-            onPressed: () {
-              hymnProvider.toggleFavorite(widget.hymn.id);
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Title Section
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: isDarkMode ? Colors.grey[900] : const Color(0xFFDAA520),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    widget.hymn.title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w400,
-                      color: isDarkMode ? Colors.white : Colors.white,
-                      letterSpacing: 1.5,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      widget.hymn.theme,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isDarkMode ? Colors.white : Colors.white,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Content Section
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                widget.hymn.lyrics,
-                style: TextStyle(
-                  fontSize: _fontSize,
-                  height: 1.8,
-                  color: isDarkMode ? Colors.white : Colors.black87,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: isDarkMode ? Colors.grey[850] : Colors.white,
@@ -123,6 +8,10 @@ class _HymnReadingScreenState extends State<HymnReadingScreen> {
               offset: const Offset(0, -2),
             ),
           ],
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
         child: SafeArea(
           child: Padding(
@@ -200,6 +89,3 @@ class _HymnReadingScreenState extends State<HymnReadingScreen> {
           ),
         ),
       ),
-    );
-  }
-}
